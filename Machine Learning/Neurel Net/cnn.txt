@@ -1,0 +1,9 @@
+random_normal[a,b]
+a : input #
+b: output #
+
+
+a,b,c,d
+
+[a,b]
+a>-

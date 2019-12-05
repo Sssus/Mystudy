@@ -1,0 +1,98 @@
+1. 기술통계
+ - 
+
+
+
+
+
+2. 추론통계
+ - 통계분석
+!빈도분석 데이터간 빈도차이
+(chi sq)
+!평균분석 두집단 평균차이 
+(단일표본 t-test, 대응표본t-test 독립표본 t-test)
+!변량분석/분산분석? 세집단 이상 평균차이(동일성?)
+(F 검증) anova
+!상관분석 - 두변수간 상관정도
+(Pearson, Spearman,Kendall)
+!회귀분석 독립변수가 종속변수에 반응을 주는정도
+
+검정
+chi_sq 독립성 검정
+
+
+--------------------------------------------------------------------------------------------------------------
+Data split
+Manifold
+CrossValidation
+
+
+Cost Function-> MSE
+머신러닝의 코스트는 회귀분석의 MSE계산과 같다.
+코스트는 가중치와 편향에 따라 달라지는 함수인데 
+편향은 계산상, 잠시 생략하고 가중치를 변경하면서 코스트를 최소화하는 가중치를 찾아내는 과정이 최적화다.
+이 가중치를 변경화하면서 코스트를 최소화하는 최적화 과정중 하나가  Gradient Descent(경사하강)법이다.
+딥러닝에서 adam같은 최적화방법도 있다.
+
+
+범주형  예측 평가 
+accuracy, ROC, AUC, .. sensitivity,
+
+수치형 예측 평가
+R^2, Score,...
+
+
+회귀분석에소 Cost Function (MSE)를 낮추는 방법으로 쓰이는 것이 Ridge와 Lasso이며 Ridge와 Lasso는 norm을 어떤 norm을 쓰느냐에 따라 나뉜다.
+euclidean norm을 쓰면 L2 - Ridge  L1_norm을 쓰면 Lasso 근데 릿지와 라쏘가 이 메트릭을 어디에 적용시키는지는 찾아봐야겠다.
+최적화, 코스트 낮춤 , 가중치조절, overfitting 방지, 
+일반적으로 가중치를 낮추면 (예를들어 Lasso) 한 Feature의 특정 Data값의 영향을 덜 받는 모델이 되어 오버피팅을 방지하게 된다.
+
+
+Neural Network의 목적 : 예측을 하는데 있어 예를들어 회귀분석을 예측한다고 할때에
+data point들을 설명하는 뭐 y=Wx라고 그린다고 할때에 각 point별 err가 생긴다. 이 err를 
+이용하여 mse를 계산하는 것이 일종의 Cost Function이고 Cost Function이 최소가 되는 
+지점을 찾는 것이 목적이다. 즉 CostFunction은 W를 input으로 갖는 함수이며 
+W로 미분하였을 때에 미분값이 0으로 만드는 최적의 W조합을 찾는 것이 목적이라고 할 수 있다.
+Cost Function의 종류에 cross entropy function등이 있다.
+그리고 Neural Network는 비선형문제를 해결하고자 함인데 이는 선형의 조합으로 비선형문제를
+다중의 선형문제로 변환하여 해결하는 시도라고 생각하면 되는 것 같다.
+일종의 fitting curve를 직선 fitting curve를 여러개 만들어 해결하는 느낌인데 이거는 더 생각해보자
+그리고 활성화함수를 비선형활성화함수를 쓰는 이유는 비선형문제를 해결하기 위함이다.
+활성화함수가 uniform하거나 linear하다면 neural network의 각 node가 output을 input에 선형적인 값으로
+출력하게 되기에 이는 결국 선형문제를 해결하는 form이 되어버리기에 우리의 목적인
+비선형 문제를 해결하지 못한다.
+
+따라서 활성화함수를 두어 이전 node의 output의 값에 영향을 받는 것이 아닌 이전 node의
+output에 따른 활성화를 거친 값들 새로운 값들에 영향을 받는 것,,
+
+
+
+
+
+
+활성화함수 -> 비선형문제를 선형으로 해결하고자.. 하는게 아닌가?
+
+
+one_hot encoding : output이 label의 갯수에 따라 0~1로 나오기 때문에 label을 설정해줄 때 
+0,0,0,0,1,0,0과 같은식으로 설정해주어 비교가 가능하도록 하는것
+
+이 비교할때 쓰는 함수는 softmax cross entropy라고 함
+
+y=Wx로 예측했을때의 y를 score라고하면 y에는 잘못예측할 수 있는 loss가 발생(각각의 data마다)
+이때 loss를 구하는 방식은 Hinge Loss 와 Cross Entropy Loss가 있고 
+Hinge Loss 는 SVM, Cross Entropy Loss는 SOFTMAX의 방식으로 구한다고 한다.
+이 loss를 평균?내는 것이 Cost함수다.
+
+loss function은 data에 대한 loss와 가중치가 얼마나 적합한지에 대한 loss로 나눌수 있다.
+(가중치에 대한 loss는 test를 잘 설명할 수 있는지에 대한loss)
+이때 가중치에 대한 적합성은 L1 혹은 L2Reguarization으로 선택한다.
+L1은 Manhatten Distance를 사용하며  L2는 Euclidean Distance를 사용하는데 
+좀더 알아봐야할듯하다.
+L1으로 Regularization할때에는 feature의 수를 줄이는 데에 유용하고 
+L2로 Regularization할때에는 Feature마다의 지나친 설명력을 규제하는 데 유용하다.
+
+Epoch = 하나의 데이터셋을 모든 Batch를 완료하였을 때 한 Epoch을 돌았다고함
+Batch * Iteration =Data Size
+Batch는 데이터의 메모리문제로 나누어서 실행하는 것이며 이때의 Loss는 각각의 Iteration마다
+svm, 혹은 softmax로 구하여 평균내는것이 일반적이다.
+Batchsize는 Data Size/Batch수 이며 Iteration과 같은 의미(반복횟수)
